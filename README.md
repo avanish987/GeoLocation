@@ -9,9 +9,9 @@ sudo apt-get install binutils libproj-dev gdal-bin
 
 
 ## Setup
-- First installed python3.9 dev tools.
+- First installed python3 dev tools.
     - <i>For debian based distros</i>
-    1) <code>sudo apt-get install python3.9 python3.9-dev python3.9-venv</code>
+    1) <code>sudo apt-get install python3 python3-dev python3-venv</code>
         <br>
     <b>These all steps are same on every *nix based systems.</b>
     2) clone the repository.
