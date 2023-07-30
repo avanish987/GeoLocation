@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place List with Leaflet Map</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <!-- Custom CSS -->
+    <style>
+        /* Set the map container size */
+        #map {
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h1>List of Places</h1>
+    <ul id="place-list">
+        {% for place in places %}
+            <li>{{ place.name }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Leaflet Map Container -->
+    <div id="map"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <!-- Custom JS -->
+    <script>
+        // Sample place data from Django context
+        const places = [
+            {% for place in places %}
+                { name: "{{ place.name }}", latitude: {{ place.latitude }}, longitude: {{ place.longitude }} },
+            {% endfor %}
+        ];
+
+        // Function to create the place list items and add markers to the map
+        function createPlaceListAndMap() {
+            const placeList = document.getElementById('place-list');
+            const map = L.map('map').setView([places[0].latitude, places[0].longitude], 10);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            places.forEach(place => {
+                // Create list item for each place
+                const listItem = document.createElement('li');
+                listItem.textContent = place.name;
+                placeList.appendChild(listItem);
+
+                // Create a marker on the map for each place
+                L.marker([place.latitude, place.longitude])
+                    .addTo(map)
+                    .bindPopup(place.name);
+            });
+        }
+
+        // Call the function to create the place list and map
+        createPlaceListAndMap();
+    </script>
+</body>
+</html>

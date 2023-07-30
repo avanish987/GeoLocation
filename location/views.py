@@ -73,7 +73,7 @@ class DeleteLocationId(APIView):
                     status=status.HTTP_404_NOT_FOUND
                 )
             else:
-                Place.objects.delete(id=pk)
+                Place.objects.filter(id=pk).delete()
             logger.info(f"Deleted successfully location_id:{pk}")
             return Response(
                 data=messages_code.DELETE_SUCCESS_200,
